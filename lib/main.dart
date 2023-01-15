@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,473 +19,226 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var RS1 = 0;
 
-  var GSTpr = [
-    "3%",
-    "5%",
-    "12%",
-    "18%",
-    "28%",
-  ];
+  Map<String, double> map1 = {
+    "loan": 100000,
+    "inter": 10,
+    "tenure": 24,
+  };
+  double P =0;
+  double N =0;
+  double R =0;
 
-  var Box1 = 0;
-  var Box2 = 0;
-  var Box3 = 0;
-  var Box4 = 0;
-  var Box5 = 0;
-
-  var GST = 0;
-  var FinalPrice = 0;
-
-  var Decoration1 = BoxDecoration(
-    color: Colors.orange.shade700,
-    borderRadius: BorderRadius.circular(10),
-  );
+  // ignore: non_constant_identifier_names
+  var EMIRs = 0;
 
   @override
   Widget build(BuildContext context) {
-    double h1 = MediaQuery.of(context).size.height;
-    double w1 = MediaQuery.of(context).size.height;
+    // ignore: non_constant_identifier_names
+    var Size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: h1 * 0.04,
-                  width: w1 * 0.487,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
+      appBar: AppBar(
+        title: const Text(
+          "EMI Calculator",
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        leading: const Icon(Icons.border_all_outlined),
+        backgroundColor: const Color(0xff20295C),
+        elevation: 0,
+      ),
+      body: Align(
+        alignment: Alignment.bottomCenter,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              height: Size.height,
+              width: Size.width,
+              decoration: const BoxDecoration(
+                color: Color(0xff20295C),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                  child: Row(
+                  const Text(
+                    "Your Loan EMI is",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        width: 30,
+                      Text(
+                        "₹ ${EMIRs.toDouble()}",
+                        style: const TextStyle(
+                          fontSize: 40,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const Text(
-                        "ORIGINAL PRICE",
+                        "Month",
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 110,
-                      ),
-                      Text(
-                        "$RS1 Rs.",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
+                            color: Colors.white,
+                            height: 3,
+                            fontWeight: FontWeight.w200),
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: h1 * 0.2,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
+            Container(
+              height: Size.height * 0.76,
+              width: Size.width,
+              decoration: const BoxDecoration(
+                color: Color(0xffEFEFEF),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(55),
+                ),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Color(0xff0F2027),
+                    blurRadius: 50,
+                    spreadRadius: 7,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        "GST",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: GSTpr.map((e) {
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (e == "3%") {
-                                  FinalPrice = (RS1 * 3 ~/ 100) + RS1;
-                                  GST = (FinalPrice - RS1) ~/ 2;
-                                  Box1 = 1;
-                                  Box2 = 0;
-                                  Box3 = 0;
-                                  Box4 = 0;
-                                  Box5 = 0;
-                                } else if (e == "5%") {
-                                  FinalPrice = (RS1 * 5 ~/ 100) + RS1;
-                                  GST = (FinalPrice - RS1) ~/ 2;
-                                  Box2 = 1;
-                                  Box1 = 0;
-                                  Box3 = 0;
-                                  Box4 = 0;
-                                  Box5 = 0;
-                                } else if (e == "12%") {
-                                  FinalPrice = (RS1 * 12 ~/ 100) + RS1;
-                                  GST = (FinalPrice - RS1) ~/ 2;
-                                  Box3 = 1;
-                                  Box1 = 0;
-                                  Box2 = 0;
-                                  Box4 = 0;
-                                  Box5 = 0;
-                                } else if (e == "18%") {
-                                  FinalPrice = (RS1 * 18 ~/ 100) + RS1;
-                                  GST = (FinalPrice - RS1) ~/ 2;
-                                  Box4 = 1;
-                                  Box1 = 0;
-                                  Box2 = 0;
-                                  Box3 = 0;
-                                  Box5 = 0;
-                                } else if (e == "28%") {
-                                  FinalPrice = (RS1 * 28 ~/ 100) + RS1;
-                                  GST = (FinalPrice - RS1) ~/ 2;
-                                  Box5 = 1;
-                                  Box1 = 0;
-                                  Box2 = 0;
-                                  Box3 = 0;
-                                  Box4 = 0;
-                                }
-                              });
-                            },
-                            child: Container(
-                              height: h1 * 0.05,
-                              width: w1 * 0.09,
-                              alignment: Alignment.center,
-                              decoration: (e == "3%" && Box1 == 1)
-                                  ? Decoration1
-                                  : (e == "5%" && Box2 == 1)
-                                  ? Decoration1
-                                  : (e == "12%" && Box3 == 1)
-                                  ? Decoration1
-                                  : (e == "18%" && Box4 == 1)
-                                  ? Decoration1
-                                  : (e == "28%" && Box5 == 1)
-                                  ? Decoration1
-                                  : const BoxDecoration(),
-                              child: Text(
-                                e,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: MySliderBox(
+                        Title: "Loan Amount",
+                        sym: "₹",
+                        Value: "loan",
+                        min1: 10000,
+                        max1: 200000),),
+                  Expanded(
+                    child: MySliderBox(
+                        Title: "Interest Rate",
+                        sym: "%",
+                        Value: "inter",
+                        min1: 1,
+                        max1: 30),),
+                  Expanded(
+                    child: MySliderBox(
+                        Title: "Loan Tenure",
+                        sym: "Months",
+                        Value: "tenure",
+                        min1: 10,
+                        max1: 56),),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap:(){
+                            setState(() {
+                              P=map1["loan"]!;
+                              R=map1["inter"]!/12/100;
+                              N=map1["tenure"]!;
+
+                              EMIRs = P * R * pow((1+R), N)~/(pow((1 + R), N)-1);
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 70,
+                            width: 240,
+                            decoration: BoxDecoration(
+                              color: const Color(0xffE7EAFF),
+                              border: Border.all(
+                                color: const Color(0xff2C397E),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Text(
+                              "Calculate",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                                color: Color(0xff2C3568),
                               ),
                             ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: h1 * 0.04,
-                  width: w1 * 0.487,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      const Text(
-                        "FINAL PRICE",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 160,
-                      ),
-                      Text(
-                        "$FinalPrice Rs.",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: h1 * 0.09,
-                  width: w1 * 0.25,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        "CGST/SGST",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "${GST}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 7;
-                                  });
-                                },
-                                child: Button(
-                                    "7", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 4;
-                                  });
-                                },
-                                child: Button(
-                                    "4", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 1;
-                                  });
-                                },
-                                child: Button(
-                                    "1", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = RS1 * 100;
-                                  });
-                                },
-                                child: Button(
-                                    "00", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 8;
-                                  });
-                                },
-                                child: Button(
-                                    "8", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 5;
-                                  });
-                                },
-                                child: Button(
-                                    "5", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 2;
-                                  });
-                                },
-                                child: Button(
-                                    "2", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 0;
-                                  });
-                                },
-                                child: Button(
-                                    "0", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 9;
-                                  });
-                                },
-                                child: Button(
-                                    "9", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 6;
-                                  });
-                                },
-                                child: Button(
-                                    "6", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    RS1 = (RS1 * 10) + 3;
-                                  });
-                                },
-                                child: Button(
-                                    "3", Colors.black, w1 * 0.12, h1 * 0.12)),
-                            InkWell(
-                              onTap: () {
-                                setState(() {});
-                              },
-                              child: Button(
-                                  ".", Colors.black, w1 * 0.12, h1 * 0.12),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          FinalPrice = 0;
-                          GST = 0;
-                          RS1 = 0;
-                          Box1 = 0;
-                          Box2 = 0;
-                          Box3 = 0;
-                          Box4 = 0;
-                          Box5 = 0;
-                        });
-                      },
-                      child: Container(
-                        height: h1 * 0.23,
-                        width: w1 * 0.12,
-                        decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "AC",
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          RS1 = RS1 ~/ 10;
-                        });
-                      },
-                      child: Container(
-                        height: h1 * 0.23,
-                        width: w1 * 0.12,
-                        decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "⌫",
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   // ignore: non_constant_identifier_names
-  Widget Button(
-      String text,
-      Color fontcolor,
-      double w1,
-      double h1,
-      ) {
-    return Container(
-      alignment: Alignment.center,
-      height: h1,
-      width: w1,
-      decoration: const BoxDecoration(
-        color: Colors.white, //color: color1,
-      ),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 30, color: fontcolor),
-      ),
+  Widget MySliderBox(
+      // ignore: non_constant_identifier_names
+          {required String Title,
+        required String sym,
+        // ignore: non_constant_identifier_names
+        required String Value,
+        required double min1,
+        required double max1}) {
+    return Column(
+      children: [
+        // SizedBox(height: 30,),
+        Text(
+          Title,
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w500,
+            color: Color(0xff484848),
+          ),
+        ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(
+              Title,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 50,
+                  color: Color(0xffE5E6E8)),
+            ),
+            Text(
+              "${map1[Value]!.toInt()} $sym ",
+              style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        SizedBox(
+          width: 330,
+          child: Slider(
+            onChanged: (val) {
+              setState(() {
+                map1[Value] = val;
+              });
+            },
+            value: map1[Value]!,
+            min: min1,
+            max: max1,
+            thumbColor: const Color(0xff20295C),
+            inactiveColor: Colors.blueGrey.shade100,
+            activeColor: Colors.blueGrey.shade200,
+          ),
+        ),
+      ],
     );
   }
 }
